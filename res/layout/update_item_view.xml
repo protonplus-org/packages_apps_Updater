@@ -98,22 +98,32 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/update_menu"
                 style="?android:attr/actionOverflowButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="8dp"
-                android:contentDescription="@null" />
+                android:layout_gravity="right"
+                android:gravity="right"/>
             <Button
                 android:id="@id/update_action"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_gravity="right"
+                android:gravity="right"
                 tools:text="Pause" />
+            <Button
+                android:id="@+id/update_changelog"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:text="@string/action_changelog"
+                android:textAllCaps="true" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

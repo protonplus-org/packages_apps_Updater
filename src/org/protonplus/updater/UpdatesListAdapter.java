@@ -21,6 +21,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -62,7 +63,10 @@ import org.protonplus.updater.misc.Utils;
 import org.protonplus.updater.model.UpdateInfo;
 import org.protonplus.updater.model.UpdateStatus;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -94,12 +98,13 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         DELETE,
         CANCEL_INSTALLATION,
         REBOOT,
+        CHANGELOG,
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final Button mAction;
         private final ImageButton mMenu;
-
+        private final Button mChangelog;
         private final TextView mBuildDate;
         private final TextView mBuildVersion;
         private final TextView mBuildSize;
@@ -113,6 +118,7 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
             super(view);
             mAction = view.findViewById(R.id.update_action);
             mMenu = view.findViewById(R.id.update_menu);
+            mChangelog = view.findViewById(R.id.update_changelog);
 
             mBuildDate = view.findViewById(R.id.build_date);
             mBuildVersion = view.findViewById(R.id.build_version);
@@ -211,6 +217,7 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         viewHolder.mProgress.setVisibility(View.VISIBLE);
         viewHolder.mProgressText.setVisibility(View.VISIBLE);
         viewHolder.mBuildSize.setVisibility(View.INVISIBLE);
+        setButtonAction(viewHolder.mChangelog, Action.CHANGELOG, downloadId, true);
     }
 
     private void handleNotActiveStatus(ViewHolder viewHolder, UpdateInfo update) {
@@ -236,6 +243,7 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         viewHolder.mProgress.setVisibility(View.INVISIBLE);
         viewHolder.mProgressText.setVisibility(View.INVISIBLE);
         viewHolder.mBuildSize.setVisibility(View.VISIBLE);
+        setButtonAction(viewHolder.mChangelog, Action.CHANGELOG, downloadId, true);
     }
 
     @Override
@@ -426,6 +434,10 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
                 } : null;
             }
             break;
+            case CHANGELOG: {
+                clickListener = enabled ? view -> new getChangelogDialog().execute(Utils.getChangelogURL(view.getContext())) : null;
+            }
+            break;
             default:
                 clickListener = null;
         }
@@ -579,6 +591,46 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
                 .show();
         TextView textView = infoDialog.findViewById(android.R.id.message);
         if (textView != null) {
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+    }
+
+    private class getChangelogDialog extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... strings) {
+            String outputString = "";
+            String inputString;
+            int i = 0;
+
+            try {
+                URL changelog = new URL(strings[0]);
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                        changelog.openStream()));
+
+                while((inputString = in.readLine()) != null) {
+                    // don't include the top 5 lines of the changelog
+                    if (i >= 5) {
+                        outputString += inputString + "\n";
+                    }
+                    i++;
+                }
+
+                in.close();
+                return outputString;
+            } catch(IOException e) {
+                Log.e(TAG, "Could not fetch changelog from " + strings[0]);
+                return mActivity.getResources().getString(R.string.changelog_fail);
+            }
+        }
+
+        protected void onPostExecute(String result) {
+            AlertDialog dialog = new AlertDialog.Builder(mActivity)
+                    .setTitle(R.string.action_changelog)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setMessage(result)
+                    .show();
+            TextView textView = (TextView) dialog.findViewById(android.R.id.message);
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
