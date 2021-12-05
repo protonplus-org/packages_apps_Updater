@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lineageos.updater;
+package org.protonplus.updater;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -53,14 +53,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.lineageos.updater.controller.UpdaterController;
-import org.lineageos.updater.controller.UpdaterService;
-import org.lineageos.updater.misc.BuildInfoUtils;
-import org.lineageos.updater.misc.Constants;
-import org.lineageos.updater.misc.StringGenerator;
-import org.lineageos.updater.misc.Utils;
-import org.lineageos.updater.model.UpdateInfo;
-import org.lineageos.updater.model.UpdateStatus;
+import org.protonplus.updater.controller.UpdaterController;
+import org.protonplus.updater.controller.UpdaterService;
+import org.protonplus.updater.misc.BuildInfoUtils;
+import org.protonplus.updater.misc.Constants;
+import org.protonplus.updater.misc.StringGenerator;
+import org.protonplus.updater.misc.Utils;
+import org.protonplus.updater.model.UpdateInfo;
+import org.protonplus.updater.model.UpdateStatus;
 
 import java.io.IOException;
 import java.text.DateFormat;

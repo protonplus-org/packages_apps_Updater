@@ -13,28 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lineageos.updater.model;
+package org.protonplus.updater.model;
 
-import java.io.File;
+public interface UpdateBaseInfo {
+    String getName();
 
-public interface UpdateInfo extends UpdateBaseInfo {
-    UpdateStatus getStatus();
+    String getDownloadId();
 
-    int getPersistentStatus();
+    long getTimestamp();
 
-    File getFile();
+    String getType();
+
+    String getVersion();
+
+    String getDownloadUrl();
 
     long getFileSize();
-
-    int getProgress();
-
-    long getEta();
-
-    long getSpeed();
-
-    int getInstallProgress();
-
-    boolean getAvailableOnline();
-
-    boolean getFinalizing();
 }

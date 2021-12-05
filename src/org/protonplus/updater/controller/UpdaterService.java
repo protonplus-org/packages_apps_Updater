@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lineageos.updater.controller;
+package org.protonplus.updater.controller;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -34,16 +34,16 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
-import org.lineageos.updater.R;
-import org.lineageos.updater.UpdaterReceiver;
-import org.lineageos.updater.UpdatesActivity;
-import org.lineageos.updater.misc.BuildInfoUtils;
-import org.lineageos.updater.misc.Constants;
-import org.lineageos.updater.misc.StringGenerator;
-import org.lineageos.updater.misc.Utils;
-import org.lineageos.updater.model.Update;
-import org.lineageos.updater.model.UpdateInfo;
-import org.lineageos.updater.model.UpdateStatus;
+import org.protonplus.updater.R;
+import org.protonplus.updater.UpdaterReceiver;
+import org.protonplus.updater.UpdatesActivity;
+import org.protonplus.updater.misc.BuildInfoUtils;
+import org.protonplus.updater.misc.Constants;
+import org.protonplus.updater.misc.StringGenerator;
+import org.protonplus.updater.misc.Utils;
+import org.protonplus.updater.model.Update;
+import org.protonplus.updater.model.UpdateInfo;
+import org.protonplus.updater.model.UpdateStatus;
 
 import java.io.File;
 import java.io.IOException;

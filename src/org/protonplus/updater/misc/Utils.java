@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lineageos.updater.misc;
+package org.protonplus.updater.misc;
 
 import android.app.AlarmManager;
 import android.content.ClipData;
@@ -33,12 +33,12 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lineageos.updater.R;
-import org.lineageos.updater.UpdatesDbHelper;
-import org.lineageos.updater.controller.UpdaterService;
-import org.lineageos.updater.model.Update;
-import org.lineageos.updater.model.UpdateBaseInfo;
-import org.lineageos.updater.model.UpdateInfo;
+import org.protonplus.updater.R;
+import org.protonplus.updater.UpdatesDbHelper;
+import org.protonplus.updater.controller.UpdaterService;
+import org.protonplus.updater.model.Update;
+import org.protonplus.updater.model.UpdateBaseInfo;
+import org.protonplus.updater.model.UpdateInfo;
 
 import java.io.BufferedReader;
 import java.io.File;
