@@ -15,5 +15,6 @@
      limitations under the License.
 -->
 <resources>
+    <bool name="config_hideAutoDelete">true</bool>
     <bool name="config_hideRecoveryUpdate">true</bool>
 </resources>
