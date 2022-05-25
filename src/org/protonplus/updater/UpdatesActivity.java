@@ -17,6 +17,7 @@ package org.protonplus.updater;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.app.Activity;
 import android.app.UiModeManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -46,6 +47,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
@@ -89,6 +92,19 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
     private RotateAnimation mRefreshAnimation;
 
     private boolean mIsTV;
+
+    private UpdateInfo mToBeExported = null;
+    private final ActivityResultLauncher<Intent> mExportUpdate = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    if (intent != null) {
+                        Uri uri = intent.getData();
+                        exportUpdate(uri);
+                    }
+                }
+            });
 
     private UpdateImporter mUpdateImporter;
     @SuppressWarnings("deprecation")
@@ -481,6 +497,26 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                 showSnackbar(R.string.snack_download_verified, Snackbar.LENGTH_LONG);
                 break;
         }
+    }
+
+    @Override
+    public void exportUpdate(UpdateInfo update) {
+        mToBeExported = update;
+
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/zip");
+        intent.putExtra(Intent.EXTRA_TITLE, update.getName());
+
+        mExportUpdate.launch(intent);
+    }
+
+    private void exportUpdate(Uri uri) {
+        Intent intent = new Intent(this, ExportUpdateService.class);
+        intent.setAction(ExportUpdateService.ACTION_START_EXPORTING);
+        intent.putExtra(ExportUpdateService.EXTRA_SOURCE_FILE, mToBeExported.getFile());
+        intent.putExtra(ExportUpdateService.EXTRA_DEST_URI, uri);
+        startService(intent);
     }
 
     @Override
