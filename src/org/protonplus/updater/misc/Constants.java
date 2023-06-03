@@ -42,6 +42,7 @@ public final class Constants {
     public static final String PROP_BUILD_VERSION = "ro.proton.version";
     public static final String PROP_DEVICE = "ro.proton.device";
     public static final String PROP_NEXT_DEVICE = "ro.updater.next_device";
+    public static final String PROP_ZIP_TYPE = "ro.proton.ziptype";
     public static final String PROP_UPDATER_ALLOW_DOWNGRADING = "protonplus.updater.allow_downgrading";
 
     public static final String PREF_INSTALL_OLD_TIMESTAMP = "install_old_timestamp";

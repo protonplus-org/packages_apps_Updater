@@ -142,10 +142,15 @@ public class Utils {
     public static String getServerURL(Context context) {
         String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
                 SystemProperties.get(Constants.PROP_DEVICE));
+        String ziptype = SystemProperties.get(Constants.PROP_ZIP_TYPE).toLowerCase(Locale.ROOT);
+
+        // Fallback to vanilla if prop was not found
+        if (ziptype == null) ziptype = "vanilla";
 
         String serverUrl = context.getString(R.string.updater_server_url);
 
-        return serverUrl.replace("{device}", device);
+        return serverUrl.replace("{device}", device)
+                .replace("{ziptype}", ziptype);
     }
 
     public static String getUpgradeBlockedURL(Context context) {
